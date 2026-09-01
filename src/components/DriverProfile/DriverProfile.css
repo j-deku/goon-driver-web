@@ -1,0 +1,13 @@
+.driver-profile{
+    background-color: aliceblue;
+    padding: 50px;
+    border-radius: 20px;
+}
+.driver-profile .btn-update{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgb(9, 70, 90);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,17 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "menu": "Menu",
+    "mobileApp": "Application Mobile",
+    "contactUs": "Contactez-nous",
+    "signIn": "Se connecter",
+    "profile": "Détails du profil",
+    "notifications": "Notifications",
+    "bookings": "Réservations",
+    "logout": "Se déconnecter",
+    "welcome": "Bienvenue"
+  },
+  "home": {
+    "welcomeMessage": "Bienvenue sur la meilleure application de réservation de transport"
+  }
+}

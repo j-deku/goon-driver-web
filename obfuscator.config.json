@@ -1,0 +1,16 @@
+{
+  "compact": true,
+  "controlFlowFlattening": true,
+  "controlFlowFlatteningThreshold": 0.8,
+  "deadCodeInjection": true,
+  "deadCodeInjectionThreshold": 0.4,
+  "stringArray": true,
+  "stringArrayEncoding": ["base64"],
+  "stringArrayThreshold": 0.8,
+  "renameGlobals": true,
+  "rotateStringArray": true,
+  "shuffleStringArray": true,
+  "splitStrings": true,
+  "splitStringsChunkLength": 5,
+  "target": "browser"
+}

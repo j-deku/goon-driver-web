@@ -1,0 +1,49 @@
+.edit-fare {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-fare h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-fare p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .edit-fare .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .edit-fare label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .edit-fare input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-fare button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

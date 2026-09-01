@@ -1,0 +1,47 @@
+.ride-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  animation: ride-pin-in 260ms ease-out;
+}
+
+.ride-pin__fare {
+  background: #ffffff;
+  color: #1b1c24;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  border: 2px solid #ffc107;
+  white-space: nowrap;
+}
+
+.ride-pin.is-selected .ride-pin__fare {
+  border-color: #1976d2;
+  background: #1976d2;
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.ride-pin__stem {
+  width: 2px;
+  height: 10px;
+  background: #ffc107;
+}
+
+.ride-pin.is-selected .ride-pin__stem {
+  background: #1976d2;
+}
+
+@keyframes ride-pin-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "navbar": {
+      "home": "Início",
+      "menu": "Menu",
+      "mobileApp": "Aplicativo Móvel",
+      "contactUs": "Contate-Nos",
+      "signIn": "Entrar",
+      "profile": "Detalhes do Perfil",
+      "notifications": "Notificações",
+      "bookings": "Reservas",
+      "logout": "Sair",
+      "welcome": "Bem-vindo"
+    },
+    "home": {
+      "welcomeMessage": "Bem-vindo ao Melhor Aplicativo de Reservas de Transporte"
+    }
+  }
+  

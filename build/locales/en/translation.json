@@ -1,0 +1,18 @@
+{
+    "navbar": {
+      "home": "Home",
+      "menu": "Menu",
+      "mobileApp": "Mobile App",
+      "contactUs": "Contact Us",
+      "signIn": "Sign In",
+      "profile": "Profile Details",
+      "notifications": "Notifications",
+      "bookings": "Bookings",
+      "logout": "Logout",
+      "welcome": "Welcome"
+    },
+    "home": {
+      "welcomeMessage": "Welcome to the Best Transport Booking App"
+    }
+  }
+  

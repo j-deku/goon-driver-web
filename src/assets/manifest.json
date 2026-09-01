@@ -1,0 +1,76 @@
+{
+  "name": "TOLI-TOLI",
+  "short_name": "TOLI-TOLI",
+  "description":"Book your rides, get your receipts!",
+  "lang":"en",
+  "dir":"ltr",
+  "gcm_sender_id":"103953800507",
+  "screenshots": [
+    {
+      "src": "/TT-logo-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose":"maskable",
+      "form_factor":"narrow"
+    },
+    {
+      "src": "/TT-logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose":"any",
+      "form_factor":"wide"
+    }
+
+  ],
+  "icons": [
+    {
+      "src": "/TT-logo-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose":"any",
+      "form_factor":"wide"
+    },
+    {
+      "src": "/TT-logo-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose":"maskable"
+    },
+    {
+      "src": "/TT-logo-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose":"any"
+    },
+    {
+      "src": "/TT-logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose":"any"
+    }
+  ],
+  "related_applications":[],
+  "start_url": "/",
+  "id":"TOLI-TOLI",
+  "background_color": "#FFFFFF",
+  "theme_color": "tomato",
+  "display_override": ["fullscreen", "minimal-ui"],
+  "display": "standalone",
+  "orientation": "portrait",
+  "animation":"pulse",
+  "scope":"/",
+  "protocol_handlers":[
+    {
+      "protocol":"web+tolitoli",
+      "url":"/handler?/=%s"
+    },
+    {
+      "protocol":"tel",
+      "url":"/handler?/=%s"
+    },
+    {
+      "protocol":"web+tolitoli",
+      "url":"/handler?/=%s"
+    }
+  ]
+}

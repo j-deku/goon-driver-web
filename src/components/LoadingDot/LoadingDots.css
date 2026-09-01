@@ -1,0 +1,50 @@
+
+/* Container centers the dots horizontally */
+.loading-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* fill parent (e.g. full-screen) if needed */
+  margin-top: 20px;
+}
+
+/* Each dot is a circle; uses CSS keyframes for a “bounce/pulse” effect */
+.loading-dots .dot {
+  display: inline-block;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation-name: dotPulse;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+/* Stagger the animation for each dot */
+.loading-dots .dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.loading-dots .dot:nth-child(2) {
+  animation-delay: calc(var(--animation-duration, 1s) / 3);
+}
+.loading-dots .dot:nth-child(3) {
+  animation-delay: calc(var(--animation-duration, 1s) / 1.5);
+}
+
+/* Keyframes: fade-in/fade-out to create a pulsing sequence */
+@keyframes dotPulse {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+}

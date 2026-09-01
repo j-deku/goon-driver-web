@@ -1,0 +1,17 @@
+{
+  "navbar": {
+    "home": "Startseite",
+    "menu": "Menü",
+    "mobileApp": "Mobile App",
+    "contactUs": "Kontaktieren Sie uns",
+    "signIn": "Anmelden",
+    "profile": "Profildetails",
+    "notifications": "Benachrichtigungen",
+    "bookings": "Buchungen",
+    "logout": "Abmelden",
+    "welcome": "Willkommen"
+  },
+  "home": {
+    "welcomeMessage": "Willkommen bei der besten Transport-Buchungs-App"
+  }
+}

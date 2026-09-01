@@ -1,0 +1,1159 @@
+/* =========================================================
+   ROOT
+========================================================= */
+
+.driver-terms-page {
+  min-height: 100vh;
+  margin-top: 50px;
+
+  background:
+    #f6f7f9;
+
+  color:
+    #111827;
+
+  font-family:
+    "Poppins",
+    sans-serif;
+
+  padding-bottom:
+    70px;
+}
+
+
+.driver-terms-container {
+  width:
+    min(1180px, calc(100% - 48px));
+
+  margin:
+    0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.driver-terms-hero {
+  position:
+    relative;
+
+  min-height:
+    310px;
+
+  overflow:
+    hidden;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827 0%,
+      #1f2937 55%,
+      #374151 100%
+    );
+}
+
+
+.driver-terms-hero__background {
+  position:
+    absolute;
+
+  width:
+    480px;
+
+  height:
+    480px;
+
+  right:
+    -130px;
+
+  top:
+    -220px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.04
+    );
+
+  box-shadow:
+    -100px 200px 0
+    rgba(
+      255,
+      255,
+      255,
+      0.025
+    );
+}
+
+
+.driver-terms-hero .driver-terms-container {
+  position:
+    relative;
+
+  width:
+    min(1180px, calc(100% - 48px));
+
+  padding:
+    75px 0 60px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.driver-terms-back {
+  width:
+    44px;
+
+  height:
+    44px;
+
+  position:
+    absolute;
+
+  top:
+    24px;
+
+  left:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  color:
+    #ffffff;
+
+  cursor:
+    pointer;
+
+  font-size:
+    20px;
+
+  transition:
+    all
+    0.25s
+    ease;
+}
+
+
+.driver-terms-back:hover {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  transform:
+    translateX(-3px);
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.driver-terms-hero__content {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    22px;
+
+  color:
+    #ffffff;
+}
+
+
+.driver-terms-icon {
+  width:
+    70px;
+
+  height:
+    70px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex-shrink:
+    0;
+
+  border-radius:
+    22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(
+        255,
+        255,
+        255,
+        0.18
+      ),
+      rgba(
+        255,
+        255,
+        255,
+        0.08
+      )
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+
+  font-size:
+    30px;
+
+  backdrop-filter:
+    blur(15px);
+}
+
+
+.driver-terms-eyebrow {
+  display:
+    block;
+
+  margin-bottom:
+    9px;
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    2px;
+
+  color:
+    #9ca3af;
+}
+
+
+.driver-terms-hero h1 {
+  margin:
+    0;
+
+  font-size:
+    clamp(
+      32px,
+      5vw,
+      48px
+    );
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -1.8px;
+}
+
+
+.driver-terms-hero p {
+  max-width:
+    560px;
+
+  margin:
+    12px 0 0;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.7;
+
+  color:
+    #d1d5db;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.driver-terms-main {
+  position:
+    relative;
+
+  margin-top:
+    -35px;
+
+  z-index:
+    2;
+}
+
+
+/* =========================================================
+   INTRODUCTION
+========================================================= */
+
+.terms-introduction {
+  padding:
+    38px;
+
+  border-radius:
+    24px;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #edf0f2;
+
+  box-shadow:
+    0 18px 55px
+    rgba(
+      17,
+      24,
+      39,
+      0.08
+    );
+}
+
+
+.terms-introduction__header {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    15px;
+
+  margin-bottom:
+    22px;
+}
+
+
+.terms-introduction__icon {
+  width:
+    48px;
+
+  height:
+    48px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    15px;
+
+  background:
+    #f3f4f6;
+
+  color:
+    #111827;
+
+  font-size:
+    22px;
+}
+
+
+.terms-introduction__header span {
+  display:
+    block;
+
+  margin-bottom:
+    4px;
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    1.5px;
+
+  color:
+    #9ca3af;
+}
+
+
+.terms-introduction h2 {
+  margin:
+    0;
+
+  font-size:
+    21px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -0.5px;
+}
+
+
+.terms-introduction p {
+  max-width:
+    900px;
+
+  margin:
+    12px 0;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.8;
+
+  color:
+    #6b7280;
+}
+
+
+/* =========================================================
+   HIGHLIGHTS
+========================================================= */
+
+.terms-highlights {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap:
+    18px;
+
+  margin:
+    28px 0 70px;
+}
+
+
+.terms-highlight {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+
+  padding:
+    20px;
+
+  border-radius:
+    18px;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #edf0f2;
+}
+
+
+.terms-highlight__icon {
+  width:
+    42px;
+
+  height:
+    42px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex-shrink:
+    0;
+
+  border-radius:
+    13px;
+
+  background:
+    #f3f4f6;
+
+  color:
+    #374151;
+
+  font-size:
+    20px;
+}
+
+
+.terms-highlight strong {
+  display:
+    block;
+
+  margin-bottom:
+    3px;
+
+  font-size:
+    12px;
+
+  color:
+    #111827;
+}
+
+
+.terms-highlight span {
+  display:
+    block;
+
+  font-size:
+    10px;
+
+  line-height:
+    1.5;
+
+  color:
+    #9ca3af;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.terms-section-heading {
+  max-width:
+    650px;
+
+  margin-bottom:
+    30px;
+}
+
+
+.terms-section-heading > span {
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    1.8px;
+
+  color:
+    #6b7280;
+}
+
+
+.terms-section-heading h2 {
+  margin:
+    8px 0 10px;
+
+  font-size:
+    30px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -1px;
+
+  color:
+    #111827;
+}
+
+
+.terms-section-heading p {
+  margin:
+    0;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.7;
+
+  color:
+    #9ca3af;
+}
+
+
+/* =========================================================
+   TERMS GRID
+========================================================= */
+
+.terms-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap:
+    20px;
+}
+
+
+.terms-card {
+  position:
+    relative;
+
+  min-height:
+    235px;
+
+  padding:
+    26px;
+
+  overflow:
+    hidden;
+
+  border-radius:
+    22px;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #edf0f2;
+
+  transition:
+    transform
+    0.3s
+    ease,
+
+    box-shadow
+    0.3s
+    ease;
+}
+
+
+.terms-card:hover {
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 20px 45px
+    rgba(
+      17,
+      24,
+      39,
+      0.09
+    );
+}
+
+
+.terms-card__number {
+  position:
+    absolute;
+
+  top:
+    16px;
+
+  right:
+    18px;
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+
+  color:
+    #d1d5db;
+}
+
+
+.terms-card__icon {
+  width:
+    45px;
+
+  height:
+    45px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  margin-bottom:
+    22px;
+
+  border-radius:
+    14px;
+
+  background:
+    #f3f4f6;
+
+  color:
+    #374151;
+
+  font-size:
+    22px;
+}
+
+
+.terms-card h3 {
+  margin:
+    0 0 10px;
+
+  font-size:
+    16px;
+
+  font-weight:
+    800;
+
+  color:
+    #111827;
+}
+
+
+.terms-card p {
+  margin:
+    0;
+
+  font-size:
+    12px;
+
+  line-height:
+    1.75;
+
+  color:
+    #6b7280;
+}
+
+
+/* =========================================================
+   ACCEPTANCE
+========================================================= */
+
+.terms-acceptance {
+  margin-top:
+    60px;
+
+  padding:
+    34px;
+
+  border-radius:
+    24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827,
+      #1f2937
+    );
+
+  color:
+    #ffffff;
+
+  overflow:
+    hidden;
+
+  position:
+    relative;
+}
+
+
+.terms-acceptance::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  width:
+    260px;
+
+  height:
+    260px;
+
+  right:
+    -100px;
+
+  bottom:
+    -170px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.04
+    );
+}
+
+
+.terms-acceptance__content {
+  position:
+    relative;
+
+  z-index:
+    1;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    20px;
+}
+
+
+.terms-acceptance__icon {
+  width:
+    56px;
+
+  height:
+    56px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex-shrink:
+    0;
+
+  border-radius:
+    17px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  font-size:
+    27px;
+}
+
+
+.terms-acceptance span {
+  display:
+    block;
+
+  margin-bottom:
+    6px;
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    1.5px;
+
+  color:
+    #9ca3af;
+}
+
+
+.terms-acceptance h2 {
+  margin:
+    0;
+
+  font-size:
+    22px;
+
+  font-weight:
+    800;
+}
+
+
+.terms-acceptance p {
+  margin:
+    8px 0 0;
+
+  max-width:
+    680px;
+
+  font-size:
+    12px;
+
+  line-height:
+    1.7;
+
+  color:
+    #d1d5db;
+}
+
+
+/* =========================================================
+   LAST UPDATED
+========================================================= */
+
+.terms-last-updated {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  margin-top:
+    30px;
+
+  font-size:
+    11px;
+
+  color:
+    #9ca3af;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+  max-width: 900px
+) {
+
+  .terms-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+  .terms-highlights {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+  max-width: 600px
+) {
+
+  .driver-terms-container {
+    width:
+      calc(
+        100% - 28px
+      );
+  }
+
+
+  .driver-terms-hero {
+    min-height:
+      280px;
+  }
+
+
+  .driver-terms-hero .driver-terms-container {
+    padding:
+      80px 0 45px;
+  }
+
+
+  .driver-terms-back {
+    top:
+      20px;
+  }
+
+
+  .driver-terms-hero__content {
+    align-items:
+      flex-start;
+
+    gap:
+      15px;
+  }
+
+
+  .driver-terms-icon {
+    width:
+      56px;
+
+    height:
+      56px;
+
+    border-radius:
+      17px;
+
+    font-size:
+      24px;
+  }
+
+
+  .driver-terms-hero h1 {
+    font-size:
+      31px;
+  }
+
+
+  .driver-terms-hero p {
+    font-size:
+      12px;
+  }
+
+
+  .driver-terms-main {
+    margin-top:
+      -20px;
+  }
+
+
+  .terms-introduction {
+    padding:
+      23px;
+
+    border-radius:
+      20px;
+  }
+
+
+  .terms-introduction h2 {
+    font-size:
+      18px;
+  }
+
+
+  .terms-introduction p {
+    font-size:
+      12px;
+  }
+
+
+  .terms-section-heading h2 {
+    font-size:
+      25px;
+  }
+
+
+  .terms-grid {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      14px;
+  }
+
+
+  .terms-card {
+    min-height:
+      auto;
+
+    padding:
+      22px;
+  }
+
+
+  .terms-acceptance {
+    margin-top:
+      40px;
+
+    padding:
+      25px;
+  }
+
+
+  .terms-acceptance__content {
+    align-items:
+      flex-start;
+  }
+
+
+  .terms-acceptance h2 {
+    font-size:
+      18px;
+  }
+
+
+  .terms-acceptance p {
+    font-size:
+      11px;
+  }
+
+}

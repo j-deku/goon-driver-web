@@ -1,0 +1,41 @@
+{
+  "_vendor-DF9woP3M.css": {
+    "file": "assets/vendor-DF9woP3M.css",
+    "src": "_vendor-DF9woP3M.css"
+  },
+  "_vendor-WPellZwh.js": {
+    "file": "assets/vendor-WPellZwh.js",
+    "name": "vendor",
+    "css": [
+      "assets/vendor-DF9woP3M.css"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-BZQqy7-p.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vendor-WPellZwh.js"
+    ],
+    "dynamicImports": [
+      "src/DriverLayout.jsx"
+    ],
+    "css": [
+      "assets/index-D2qjKsd5.css"
+    ]
+  },
+  "src/DriverLayout.jsx": {
+    "file": "assets/DriverLayout-UUzJBhiM.js",
+    "name": "DriverLayout",
+    "src": "src/DriverLayout.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-WPellZwh.js",
+      "index.html"
+    ],
+    "css": [
+      "assets/DriverLayout-BGC3oy0l.css"
+    ]
+  }
+}

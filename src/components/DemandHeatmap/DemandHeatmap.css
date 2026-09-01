@@ -1,0 +1,5 @@
+.heat-blob {
+  border-radius: 50%;
+  filter: blur(6px);
+  pointer-events: none;
+}

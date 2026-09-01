@@ -1,0 +1,18 @@
+{
+    "navbar": {
+      "home": "ホーム",
+      "menu": "メニュー",
+      "mobileApp": "モバイルアプリ",
+      "contactUs": "お問い合わせ",
+      "signIn": "サインイン",
+      "profile": "プロフィール詳細",
+      "notifications": "通知",
+      "bookings": "予約",
+      "logout": "ログアウト",
+      "welcome": "ようこそ"
+    },
+    "home": {
+      "welcomeMessage": "最高の交通予約アプリへようこそ"
+    }
+  }
+  

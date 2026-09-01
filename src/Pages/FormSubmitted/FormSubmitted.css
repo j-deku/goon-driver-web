@@ -1,0 +1,62 @@
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    background-color:rgb(250, 250, 233);
+    width:100%;
+    z-index:100;
+  }
+  
+.form-submitted{
+    margin-top: 10%;
+    display: list-item;
+    align-items: center;
+    place-self: center;
+    text-align: center;
+    width: 90%;
+    font-family: 'Poppins', sans-serif;
+}
+.form-submitted h1{
+    color: #333;
+}
+.form-submitted p{
+    font-size: 24px;
+    color: #777;
+}
+.form-submitted p b{
+    color: tomato;
+}
+.form-submitted .loader{
+    width: 50%;
+    margin: 20px auto;
+}
+@media (max-width:750px) {
+    .overlay{
+        position:fixed;
+        top:0;
+        left:0;
+        background-color:rgb(250, 250, 233);
+        width:100%;
+        z-index:100;
+    }
+    .form-submitted{
+        width: 100%;
+        padding: 0 30px;
+        position: fixed;
+        top: 100px;
+    }
+    .form-submitted h1{
+        font-size: 26px;
+    }
+    .form-submitted p{
+        font-size: 18px;
+    }
+    .form-submitted p b{
+        font-size: 16px;
+        font-weight: bolder;
+    }
+    .form-submitted .loader{
+        width: 90%;
+        margin: 20px auto;
+    }
+}

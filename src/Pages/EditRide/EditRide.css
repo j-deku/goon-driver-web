@@ -1,0 +1,82 @@
+/* Container styles for the create ride page */
+.create-ride {
+    max-width: 600px;
+    margin: 40px auto;
+    margin-top: 150px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Header style */
+  .create-ride h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #2C3E50;
+  }
+  
+  /* Form layout */
+  .create-ride-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* General form group styling */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 6px;
+    color: #2C3E50;
+    font-weight: 600;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #2C3E50;
+  }
+  
+  /* For inline form groups, e.g., side-by-side fields */
+  .form-group-inline {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .form-group-inline .form-group {
+    flex: 1;
+  }
+  
+  /* Button styles */
+  .btn-submit {
+    padding: 12px;
+    font-size: 16px;
+    background: #2C3E50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-submit:hover {
+    background: #1a2f40;
+  }
+  

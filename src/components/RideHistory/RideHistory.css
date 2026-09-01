@@ -1,0 +1,45 @@
+.history-page {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .history-page h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* ensures table columns maintain width on small screens */
+  }
+  
+  .history-table th,
+  .history-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .history-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  /* Responsive adjustments for mobile devices */
+  @media screen and (max-width: 600px) {
+    .history-page {
+      padding: 10px;
+    }
+    .history-table th,
+    .history-table td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }
+  

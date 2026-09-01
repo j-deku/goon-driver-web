@@ -1,0 +1,18 @@
+{
+    "navbar": {
+      "home": "Inicio",
+      "menu": "Menú",
+      "mobileApp": "Aplicación Móvil",
+      "contactUs": "Contáctenos",
+      "signIn": "Iniciar sesión",
+      "profile": "Detalles del perfil",
+      "notifications": "Notificaciones",
+      "bookings": "Reservas",
+      "logout": "Cerrar sesión",
+      "welcome": "Bienvenido"
+    },
+    "home": {
+      "welcomeMessage": "Bienvenido a la Mejor Aplicación de Reservas de Transporte"
+    }
+  }
+  

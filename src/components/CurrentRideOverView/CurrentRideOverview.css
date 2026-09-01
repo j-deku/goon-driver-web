@@ -1,0 +1,74 @@
+.current-ride-overview {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  font-family: 'Roboto', sans-serif;
+}
+
+.current-ride-overview h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  color: #0c2e52;
+}
+
+.ride-details p {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+.ride-details .edit-fare-btn{
+  background-color: #0056b3;
+  color: #fff;
+  outline: none;
+  border: 1px solid #0056b3;
+  border-radius: 5px;
+  padding: 5px 15px;
+  margin-left: 10px;
+  cursor:pointer;
+}
+
+.map-container, .map-wrapper {
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ride-actions {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.ride-actions button {
+  margin: 0 10px;
+  padding: 0.6rem 1.2rem;
+  background-color: #0c2e52;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ride-actions button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 480px) {
+  .current-ride-overview {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .ride-actions button {
+    margin: 5px 0;
+    width: 100%;
+  }
+}

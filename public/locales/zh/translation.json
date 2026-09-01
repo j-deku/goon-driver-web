@@ -1,0 +1,18 @@
+{
+    "navbar": {
+      "home": "首页",
+      "menu": "菜单",
+      "mobileApp": "移动应用",
+      "contactUs": "联系我们",
+      "signIn": "登录",
+      "profile": "个人资料",
+      "notifications": "通知",
+      "bookings": "预订",
+      "logout": "登出",
+      "welcome": "欢迎"
+    },
+    "home": {
+      "welcomeMessage": "欢迎使用最佳交通预订应用程序"
+    }
+  }
+  

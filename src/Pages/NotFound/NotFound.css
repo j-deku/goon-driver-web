@@ -1,0 +1,102 @@
+.nf-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.nf-box {
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+  padding: 2rem;
+  margin-top: -100px;
+  border-radius: 8px;
+  animation: 0.3s ease fadeInUp;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.robot{
+    height: 200px;
+    margin-top: -100px;
+}
+.logo{
+    cursor: pointer;
+    margin-left: 10px -20px;
+    font-size: 3rem;
+    font-family: 'Poppins', arial;
+    letter-spacing: -2px;
+    font-weight: bolder;
+    color: #2C3E50;
+    padding: 20px;
+}
+
+.nf-code {
+  font-size: 4rem;
+  margin: 0;
+  color: #24292e;
+}
+
+.nf-text {
+  font-size: 1rem;
+  margin: 0.5rem 0 1.5rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #fecaca;
+}
+
+.nf-search {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.nf-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: #24292e;
+  margin-left: 0.5rem;
+}
+
+.nf-icon {
+  stroke: #57606a;
+}
+
+.nf-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nf-link {
+  color: #0969da;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.nf-link:hover {
+  color: #005cc5;
+}
+
+
+@media (max-width:768px){
+  .robot{
+    display: none;
+  }
+  .logo{
+    font-size: 2rem;
+    margin-left: 0;
+  }
+}

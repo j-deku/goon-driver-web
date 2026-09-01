@@ -1,0 +1,15 @@
+{
+  "plugins": ["react", "react-hooks"],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "rules": {
+    "react/jsx-uses-vars": "error",        // <-- key line
+    "react/react-in-jsx-scope": "off",     // if React 17+
+    "react/jsx-uses-react": "off"          // if React 17+
+  },
+  "settings": {
+    "react": { "version": "detect" }
+  }
+}

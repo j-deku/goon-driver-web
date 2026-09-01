@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --tomato:tomato
+  --o:orange
+  --b:beige
+  --s:whitesmoke
+  --sb:skyblue
+  --dsb:deepskyblue
+  --gb:#1A73E8
+  --d:#171717
+  --lw:rgb(255,255,255,0.5)
+  --wr:#FFFFFF
+  --sg:#ECEFF1
+  --lg:#F8F9FA
+  --bg:rgb(250, 250, 233)
+  --wl:#f8f9fa
+  --ld:rgba(0,0,0,0.5)
+  --ldd:rgba(0,0,0,0.8)
+  --purple:#6F42C1
+  --teal:#20C997
+  --yellow:#FFC107
+  --orange: #FF9800
+  --darkGray:#343A40
+  --warning:#DC3545
+  --success:#28A745
+  --trust:#0171C2
+  --smRed:rgba(255, 0, 0, 0.5)
+  --primary:#1A73E8
+  --red:#FF0000
+  --lightBeige:#f0f8ff
+  --feelGray:#666
+  --feelGraySoft:#555
+}
+/*
+using .arrow::after
+Arrows
+→ U+2192 Rightwards Arrow
+← U+2190 Leftwards Arrow
+↑ U+2191 Upwards Arrow
+↓ U+2193 Downwards Arrow
+↔ U+2194 Left-Right Arrow
+↵ U+21B5 Downwards Arrow with Corner Leftwards
+
+Here are the Unicode codes:
+Bus: 1F68C
+Van: 1F69B
+Motor: 1F383
+Motorcycle: 1F3CD
+Scooter: 1F6F5
+Car: 1F697
+Truck: 1F69C
+Bike: 1F6B2
+Airplane: 2708
+Helicopter: 1F681
+Boat: 26F2
+Rocket: 1F680
+Aircraft Departure: 1F6E5
+Aircraft Arrival: 1F6E6
+Helicopter Landing: 1F6E7
+Satellite: 1F6F0
+
+Icons
+U+2600 Black Sun (used for weather)
+U+2601 Cloud (used for weather)
+U+2614 Umbrella (used for weather)
+U+2620 Skull (used for warning or danger)
+U+2665 Black Heart (used for love or likes)
+U+2702 Scissors (used for editing or cutting)
+Symbols
+U+2122 Trade Mark Sign (used for branding)
+U+00A9 Copyright Sign (used for copyright)
+U+00AE Registered Sign (used for registered trademarks)
+U+2713 Check Mark (used for checkboxes or confirmation)
+U+2715 Multiplication Sign (used for multiplication or cross)
+Math and Geometry
+U+221A Square Root (used for math)
+U+221E Infinity (used for math or infinity)
+U+25A0 Black Square (used for geometry or squares)
+U+25B2 Black Up-Pointing Triangle (used for geometry or triangles)
+U+25C6 Black Left-Pointing Triangle (used for geometry or triangles)
+Social Media
+U+1F600 Grinning Face (used for emotions or reactions)
+U+1F603 Smiling Face with Open Mouth (used for emotions or reactions)
+U+1F604 Smiling Face with Smiling Eyes (used for emotions or reactions)
+U+1F60D Relieved Face (used for emotions or reactions)
+*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "poppins", Arial;
+  -webkit-user-drag: none;
+  scroll-behavior: smooth;
+}
+.app-content{
+  display: flex;
+}
+body {
+  min-height: 100vh;
+  background-color: rgb(250, 250, 233);
+  overflow-x: hidden;
+  font-size: 16px;
+  align-items: center;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@keyframes fadeIn{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut{
+  100%{
+    opacity: 0;
+  }
+  0%{
+    opacity: 1;
+  }
+}
+
+/* src/styles/wow.css */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width:750px) {
+  body{
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+}
