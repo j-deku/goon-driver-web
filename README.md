@@ -1,555 +1,286 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-
-
-
-
-
-
-
-
-
-
-#AdminController
-
-// --- LOGIN CONTROLLER (reCAPTCHA v2 only) ---
-const adminLogin = async (req, res) => {
-  const { email, password, captchaToken } = req.body;
-
-    if (!captchaToken) {
-      return res.status(400).json({ success: false, message: "Missing CAPTCHA token." });
-    }
-
-    try {
-      const decoded = jwt.verify(captchaToken, process.env.CAPTCHA_SECRET);
-      if (!decoded.passed) {
-        return res.status(403).json({ success: false, message: "Invalid CAPTCHA token." });
-      }
-    } catch (err) {
-      return res.status(403).json({ success: false, message: "CAPTCHA verification failed or expired." });
-    }
-      
-      if (!email || !password) {
-        return res.status(400).json({ success: false, message: "Email and password required." });
-      }
-
-  try {
-    const user = await UserModel.findOne({ email });
-    const allowedRoles = ["admin", "super-admin", "admin-manager"];
-    if (!user || !user.roles.some(role => allowedRoles.includes(role))) {
-      return res.status(401).json({ message: "Unauthorized Access." });
-    }
-
-    // --- Find admin profile ---
-    const admin = await AdminProfile.findOne({ user: user._id }).select(
-      "+failedLoginAttempts +lockUntil +twoFASecret +is2FAVerified +isDisabled"
-    );
-    if (!admin) {
-      return res.status(401).json({ success: false, message: "Unauthorized access. ❌" });
-    }
-
-    // --- Account lock check ---
-    if (admin.lockUntil && admin.lockUntil > Date.now()) {
-      return res.status(423).json({ success: false, message: `Account locked until ${new Date(admin.lockUntil).toLocaleString()}` });
-    }
-
-    // --- Password check ---
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      admin.failedLoginAttempts += 1;
-      if (admin.failedLoginAttempts >= 10) {
-        admin.lockUntil = Date.now() + 15 * 60 * 1000; 
-        admin.failedLoginAttempts = 0;
-      }
-      await admin.save();
-      return res.status(401).json({ success: false, message: "Invalid credentials." });
-    }
-    admin.failedLoginAttempts = 0;
-    admin.lockUntil = null;
-
-    // --- IP allowlist ---
-    const allowedIPs = process.env.ALLOWED_IPS
-      ? process.env.ALLOWED_IPS.split(",").map((ip) => ip.trim())
-      : [];
-    let clientIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress || "";
-    if (clientIP.includes(",")) clientIP = clientIP.split(",")[0].trim();
-    if (clientIP === "::1") clientIP = "127.0.0.1";
-    if (allowedIPs.length && !allowedIPs.includes(clientIP)) {
-      return res.status(403).json({ success: false, message: "Access denied from this IP address." });
-    }
-
-    // --- 2FA check ---
-    if (process.env.ENABLE_2FA === "true" && !admin.is2FAVerified) {
-      const tempToken = jwt.sign(
-        { id: user._id, pre2FA: true, roles: user.roles },
-        process.env.JWT_SECRET,
-        { expiresIn: "5m" }
-      );
-      await admin.save();
-      return res.status(403).json({
-        success: false,
-        message: "2FA verification required.",
-        pre2FAToken: tempToken,
-      });
-    }
-
-    // --- Generate tokens ---
-    const accessToken = signAccessToken(user);
-    const refreshTokenRaw = signRefreshToken(user);
-    const hashedToken = await bcrypt.hash(refreshTokenRaw, 10);
-
-    if (!Array.isArray(user.refreshTokens)) user.refreshTokens = [];
-    user.refreshTokens.push({
-      token: hashedToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    });
-    await user.save();
-    await admin.save();
-
-    setAppCookie(res, "adminRefreshToken", refreshTokenRaw, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      path:"/api/admin",
-    });
-    setAppCookie(res, "adminAccessToken", accessToken, {
-      maxAge: 15 * 60 * 1000,
-      sameSite: "Strict",
-      path:"/api/admin",
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "Login successful",
-      roles: user.roles,
-      id: user._id,
-    });
-  } catch (error) {
-    logger.error("adminLogin: server error", { error });
-    return res.status(500).json({ success: false, message: "Server error." });
-  }
-};
-
-
-
-#verifyCatcha
-
-const verifyRecaptchaHold = (req, res) => {
-  const { holdDuration, startedAt } = req.body;
-
-  // 1. Ensure it was held long enough (e.g. >= 2500ms)
-  const now = Date.now();
-  const heldTime = now - startedAt;
-
-  if (!startedAt || !holdDuration || heldTime < 2000) {
-    return res.status(400).json({ success: false, message: "CAPTCHA not held long enough." });
-  }
-
-  // 2. Issue a short-lived CAPTCHA token
-  const captchaToken = jwt.sign(
-    { passed: true, iat: Math.floor(now / 1000) },
-    process.env.CAPTCHA_SECRET,
-    { expiresIn: "3m" }
-  );
-
-  return res.status(200).json({ success: true, captchaToken });
-};
-
-
-
-
-#frontend
-import { useState, useRef } from "react";
-import { Box, Button, LinearProgress, Typography } from "@mui/material";
-
-const HOLD_DURATION = 2500; // ms
-
-const ClickHoldCaptcha = ({ onSuccess, disabled }) => {
-  const [progress, setProgress] = useState(0);
-  const [isHolding, setIsHolding] = useState(false);
-  const holdStart = useRef(null);
-  const intervalRef = useRef(null);
-
-  const handleMouseDown = () => {
-    if (disabled) return;
-    setIsHolding(true);
-    holdStart.current = Date.now();
-
-    intervalRef.current = setInterval(() => {
-      const elapsed = Date.now() - holdStart.current;
-      const percent = Math.min((elapsed / HOLD_DURATION) * 100, 100);
-      setProgress(percent);
-
-      if (percent >= 100) {
-        clearInterval(intervalRef.current);
-        setIsHolding(false);
-        setProgress(100);
-
-        // Send to server
-        fetch("/api/admin/verify-captcha-hold", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ holdDuration: elapsed, startedAt: holdStart.current }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success && data.captchaToken) {
-              onSuccess(data.captchaToken);
-            } else {
-              throw new Error("CAPTCHA failed");
-            }
-          })
-          .catch(() => {
-            alert("CAPTCHA verification failed. Try again.");
-            setProgress(0);
-          });
-      }
-    }, 20);
-  };
-
-  const handleMouseUp = () => {
-    clearInterval(intervalRef.current);
-    if (progress < 100) {
-      setIsHolding(false);
-      setProgress(0);
-    }
-  };
-
-  return (
-    <Box sx={{ textAlign: "center", mt: 2 }}>
-      <Typography variant="caption" sx={{ mb: 1, display: "block" }}>
-        Click and hold the button to verify you're human
-      </Typography>
-      <Button
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        disabled={disabled}
-        variant="outlined"
-        fullWidth
-        sx={{ minHeight: 50 }}
-      >
-        {isHolding ? "Verifying..." : "Click & Hold to Verify"}
-      </Button>
-      <LinearProgress
-        variant="determinate"
-        value={progress}
-        sx={{ mt: 1, height: 6, borderRadius: 1 }}
-      />
-    </Box>
-  );
-};
-
-export default ClickHoldCaptcha;
-
-
-
-
-import {
-  Modal,
-  Box,
-  Typography,
-  Divider,
-  useTheme,
-} from "@mui/material";
-import { MdSecurity } from "react-icons/md";
-import ClickHoldCaptcha from "../ClickHoldCaptcha/ClickHoldCaptcha";
-
-const CaptchaModal = ({ open, onVerify }) => {
-  const theme = useTheme();
-
-  return (
-    <Modal
-      open={open}
-      onClose={() => {}}
-      aria-labelledby="captcha-modal"
-      disableEscapeKeyDown
-    >
-      <Box
-        sx={{
-          width: 400,
-          bgcolor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 24,
-          p: 4,
-          mx: "auto",
-          mt: "15vh",
-          textAlign: "center",
-        }}
-      >
-        <MdSecurity size={48} color={theme.palette.primary.main} />
-        <Typography variant="h6" sx={{ mt: 2 }}>
-          Let’s verify you’re a human
-        </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
-          Please click and hold the button below to securely complete login.
-        </Typography>
-        <Divider sx={{ my: 2 }} />
-        <ClickHoldCaptcha onSuccess={onVerify} />
-      </Box>
-    </Modal>
-  );
-};
-
-export default CaptchaModal;
-
-
-
-
-import { useEffect, useState } from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  CircularProgress,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
-import { FaEnvelope, FaLock } from "react-icons/fa";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Howl } from "howler";
-import axiosInstanceAdmin from "../../../../axiosInstanceAdmin";
-import "./AdminLogin.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAdminInfo,
-  selectIsAdminAuthenticated,
-  selectAdminAuthChecked,
-} from "../../../features/admin/adminSlice";
-import CaptchaModal from "../../components/CaptchaModal/CaptchaModal";
-
-const successTone = new Howl({
-  src: ["/sounds/apple-sms.mp3"],
-  volume: 1,
-  autoplay: false,
-});
-
-const AdminLoginInner = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isAuthenticated = useSelector(selectIsAdminAuthenticated);
-  const authChecked = useSelector(selectAdminAuthChecked);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [captchaModalOpen, setCaptchaModalOpen] = useState(false);
-  const [pendingLoginValues, setPendingLoginValues] = useState(null);
-
-  useEffect(() => {
-    if (authChecked && isAuthenticated) {
-      navigate("/admin/dashboard", { replace: true });
-    }
-  }, [navigate, isAuthenticated, authChecked]);
-
-  const togglePassword = () => setShowPassword((prev) => !prev);
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .min(8, "Must be at least 8 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&]).{8,}$/,
-        "Must include uppercase, lowercase, number, special char"
-      )
-      .required("Password is required"),
-  });
-
-  const handleCaptchaVerified = async (token) => {
-    setCaptchaModalOpen(false);
-
-    if (!pendingLoginValues) {
-      toast.error("Unexpected error. Try again.");
-      return;
-    }
-
-    await attemptLogin({ ...pendingLoginValues, captchaToken: token }, () => {});
-  };
-
-  const attemptLogin = async (payload, setSubmitting) => {
-    try {
-      const response = await axiosInstanceAdmin.post(
-        "/api/admin/login",
-        payload,
-        { withCredentials: true }
-      );
-
-      if (response.data.pre2FAToken) {
-        localStorage.setItem("temp2FAToken", response.data.pre2FAToken);
-        sessionStorage.setItem("pending2FA", payload.email);
-        toast.info("Two-Factor Authentication required. Redirecting…");
-        navigate("/admin/setup-2fa", { replace: true });
-      } else if (response.data.success) {
-        await dispatch(fetchAdminInfo()).unwrap();
-        successTone.play();
-        toast.success(response.data.message || "Login successful.");
-        localStorage.removeItem("temp2FAToken");
-        navigate("/admin/dashboard");
-      } else {
-        toast.error(response.data.message || "Login failed.");
-      }
-    } catch (error) {
-      const data = error.response?.data;
-      if (error.response?.status === 403 && data?.pre2FAToken) {
-        localStorage.setItem("temp2FAToken", data.pre2FAToken);
-        sessionStorage.setItem("pending2FA", payload.email);
-        toast.info("Two-Factor Authentication required. Redirecting…");
-        navigate("/admin/setup-2fa", { replace: true });
-      } else if (error.response && error.response.status === 423) {
-        toast.warn(error.response.data.message || "Your account is temporarily suspended. Please try again later.", { autoClose: 5000 });
-      } else if (error.response && error.response.status === 401) {
-        toast.warn(error.response.data.message || "Not authorized to login here.");
-      } else if (error.response && error.response.status === 404) {
-        toast.error(error.response.data.message || "Invalid credentials. Password mismatch.");
-      } else if (error.response && error.response.status === 503) {
-        toast.error(error.response.data.message || "Server down. Please try again later.");
-      } else if (error.code === "ERR_NETWORK") {
-        toast.error("Network error. Please check your connection.");
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
-    } finally {
-      setIsSubmitting(false);
-      setSubmitting(false);
-    }
-  };
-
-  if (!authChecked) {
-    return (
-      <Box
-        sx={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#fff",
-        }}
-      >
-        <CircularProgress size={60} />
-      </Box>
-    );
-  }
-
-  return (
-    <div className="overlay">
-      <div className="logo">
-        <img src="/TT-logo.png" alt="TransBook logo" />
-      </div>
-      <div className="form">
-        <Typography variant="h5" sx={{ mb: 3, textAlign: "center", color: "gray" }}>
-          Administrator Login
-        </Typography>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            setIsSubmitting(true);
-            setSubmitting(false);
-            setPendingLoginValues(values);
-            setCaptchaModalOpen(true);
-          }}
-        >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-            <>
-              <CaptchaModal open={captchaModalOpen} onVerify={handleCaptchaVerified} />
-              <form onSubmit={handleSubmit} noValidate>
-                <Box sx={{ mb: 3 }}>
-                  <TextField
-                    name="email"
-                    label="Email"
-                    type="email"
-                    placeholder="Enter admin email"
-                    fullWidth
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FaEnvelope style={{ marginRight: 8 }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-                <Box sx={{ mb: 3 }}>
-                  <TextField
-                    name="password"
-                    label="Password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    fullWidth
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.password && Boolean(errors.password)}
-                    helperText={touched.password && errors.password}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FaLock style={{ marginRight: 8 }} />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton onClick={togglePassword} edge="end">
-                            {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-                <Typography variant="body2" sx={{ mb: 2, textAlign: "right" }}>
-                  <a
-                    href="/admin/forgot-password"
-                    style={{
-                      color: "#1A73E8",
-                      fontWeight: "bold",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Forgot password?
-                  </a>
-                </Typography>
-                <Box sx={{ textAlign: "center", mb: 2 }}>
-                  <Button type="submit" variant="contained" fullWidth disabled={isSubmitting}>
-                    {isSubmitting ? <CircularProgress size={24} /> : "Login"}
-                  </Button>
-                </Box>
-              </form>
-            </>
-          )}
-        </Formik>
-      </div>
-    </div>
-  );
-};
-
-const AdminLogin = () => (
-  <div className="admin-login-container">
-    <AdminLoginInner />
-  </div>
-);
-
-export default AdminLogin;
+<div align="center">
 
+# 🚖 GoOn Driver Web Frontend
 
+### A production-grade Ride Hailing Web System built with ReactJS · Vite · Socket.io
 
+[![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![Symfony](https://img.shields.io/badge/Symfony-8.4-black?style=for-the-badge&logo=symfony&logoColor=white)](https://symfony.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+[![Symfony Mercure](https://img.shields.io/badge/Symfony%20Mercure-Realtime-black?style=for-the-badge&logo=symfony&logoColor=white)](https://symfony.com/doc/current/mercure.html)
+[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://swagger.io/)
 
+</div>
 
+---
+
+## Overview
+
+**GoOn Driver Web** is a fully functional backend system for an Uber-like ride-hailing system. It handles the complete ride lifecycle — from rider requesting a ride to driver accepting, starting, completing, and rating — backed by real geospatial queries, JWT-based authentication, strategy-pattern business logic, and a wallet payment system.
+
+The project is designed following **clean architecture principles**: thin controllers, interface-driven service layer, repository abstraction, and separate strategy classes for pluggable business rules.
+
+---
+
+## ✨ Core Features
+
+### Authentication & Security
+
+- Role-based access control — `ROLE_ADMIN`, `ROLE_DRIVER`, `ROLE_RIDER`
+- Spring Security filter chain with a custom `JwtAuthFilter`
+- Token refresh endpoint reads refresh token from cookie (never exposed in response body)
+
+### Fare Calculation (Strategy Pattern)
+
+- `RideFareCalculationStrategy` interface with two implementations:
+  - **Default Fare** — base rate × road distance
+  - **Surge Pricing** — base rate × road distance × **2x surge multiplier**
+- `RideStrategyManager` selects the correct strategy at runtime based on demand
+
+### Payment System (Strategy Pattern)
+
+- `PaymentStrategy` interface with two implementations:
+  - **Cash Payment** — marks payment confirmed, adds fare to driver wallet
+  - **Wallet Payment** — debits rider wallet, credits driver wallet, logs transactions
+- `PaymentStrategyManager` resolves strategy from `PaymentMethod` enum at runtime
+
+### 🚗 Ride Lifecycle Management
+
+- Full state machine: `PENDING → CONFIRMED → ONGOING → ENDED / CANCELLED`
+- OTP-verified ride start (driver submits OTP, rider receives it on booking)
+- Atomic `@Transactional` operations across ride, payment, and driver availability
+- Paginated ride history for both rider and driver (sorted by `createdTime DESC`)
+
+### ⭐ Ratings System
+
+- Rider rates driver; driver rates rider — both stored per ride
+- Average rating auto-computed and persisted on `Driver` and `Rider` entities
+
+### Wallet & Transactions
+
+- Each user has a `Wallet` with balance tracking
+- `WalletTransaction` records every debit/credit with `TransactionType` and `TransactionMethod`
+- Wallet created automatically on user signup
+
+---
+
+## Tech Stack
+
+| Layer     | Technology                    |
+| --------- | ----------------------------- |
+| Language  | ReactJS + Javascript Compiler |
+| Framework | Vite + React Compiler         |
+
+---
+
+## 📐 Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    User Web App                │
+└────────────────────────┬────────────────────────────┘
+                         │ HTTP
+┌────────────────────────▼────────────────────────────┐
+│                 Login / Registration
+└────────────────────────┬────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────┐
+│   Login Process         │  Email Verification
+└──────────┬──────────────────────────┬───────────────┘
+           │                          │
+┌──────────▼──────────┐  ┌────────────▼──────────────┐
+│   Login success     │  │    Verification success   │
+│  RideService        │  │  Authentication succeed   │
+└──────────┬──────────┘  |___________________________|
+           │
+┌──────────▼──────────────────────────────────────────┐
+│              USER ACCOUNT / PROFILE MANAGEMENTS
+└──────────┬──────────────────────────────────────────┘
+```
+
+---
+
+## 📂 Project Structure
+
+```
+goon-driver-web/
+├── src/components/
+│   ├── Header/
+│   │   ├── Header.jsx                # Error response model
+│   ├── Navbar/                # Header section of the page
+│   │   ├── Navbar.jsx
+│   │   └── Navbar.css     # Navbar section of the customer page
+│   │── Header/
+│   ├── configs/
+│   │   ├──
+│   │   ├──
+│   │   └──          # HTTP security rules
+│   │
+│   ├── utils/
+│   │   ├── PublicRoute.jsx           # Public Routes protection
+│   │   ├── PrivateRoute.jsx          # Private Routes protection
+│   │
+│   │
+│   ├── /
+│   ├── pages/                           # JPA Entities
+│   │   ├── Home/                          # RideStatus, PaymentMethod, Role ...
+│   │   ├── Settings
+│   │   ├── Dashboard                   # Geometry(Point,4326) fields
+│   │   ├── SearchRide
+│   │   ├── Verify-otp                 # Verify OTP page
+│   │   ├── RegisForm                  # Registration page
+│   │   ├── Verify                     # Payment verification page
+│   │   ├── CreateRide
+│   │   ├── Login                      # Login driver page
+│   │   └── Forgot Password page, etc
+│   │
+│   ├── exceptions/
+│   │   ├──
+│   │   └──
+│   │
+│   │
+│   ├── guards/
+│   │   ├── adminGuard
+│   │
+│   │
+│   ├── Hooks/                           # Service implementations
+│   │       ├── DistanceServiceOSRMImpl.java # OSRM road distance API
+│   │       ├── DriverServiceImpl.java
+│   │       ├── RiderServiceImpl.java
+│   │       ├── RideServiceImpl.java
+│   │       ├── PaymentServiceImpl.java
+│   │       ├── WalletServiceImpl.java
+│   │       ├── RatingServiceImpl.java
+│   │       └── EmailSenderServiceImpl.java
+│   │
+│   │
+│
+│
+│
+├── src/main/resources/
+│   └── data.js                           # Seed data
+│
+├── goon-driver.postman_collection.json         # Ready-to-import Postman collection
+```
+
+---
+
+### Prerequisites
+
+- Vite + reactJS + React Compiler
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/AppDefine/goon-driver-web.git
+cd goon-driver-web
+```
+
+# VITE Config
+
+VITE_PORT=5173
+VITE_API_BASE_URL=
+
+````
+
+### 2. Build & Run
+
+```bash
+# Build
+npm run build
+
+# Run
+npm run dev
+````
+
+The server starts at `http://localhost:5173`
+
+---
+
+## Authentication Flow
+
+```
+POST /Oauth/signup         →  Create account
+POST /Oauth/login          →  Get access token (+ refresh token in HttpOnly cookie)
+                             Add header: Authorization: Bearer <access_token>
+GET  /Oauth/refresh        →  Renew access token using cookie (no body needed)
+```
+
+---
+
+## Design Patterns Used
+
+| Pattern               | Where Applied                                                                 |
+| --------------------- | ----------------------------------------------------------------------------- |
+| **Strategy**          | Driver matching (Nearest / Highest Rated)                                     |
+| **Strategy**          | Fare calculation (Default / Surge Pricing)                                    |
+| **Strategy**          | Payment processing (Cash / Wallet)                                            |
+| **Factory / Manager** | `RideStrategyManager`, `PaymentStrategyManager` resolve strategies at runtime |
+
+---
+
+## Testing
+
+```bash
+npm run build
+```
+
+A Postman collection with pre-configured requests for all endpoints is included:
+
+```
+GoOn-driver-web.postman_collection.json
+```
+
+Import it into Postman and set the `base_url` variable to `http://localhost:5173`.
+
+---
+
+## Security Highlights
+
+- Passwords never stored in plain text — BCrypt hashing via GoOn backend Security
+- JWT signed with HMAC-SHA256; validated on every request via `JwtAuthFilter`
+- Refresh token stored in **HttpOnly cookie** — inaccessible to JavaScript (XSS protection)
+- Role-based endpoint guards using `@Secured` annotations
+- Input validation with `@Valid` + field-level error messages in response
+
+---
+
+## Key Dependencies
+
+```xml
+npm run dev
+npm run prod
+npm run build
+```
+
+---
+
+## Planned Enhancements
+
+- [ ] Google Maps / HERE Maps integration for live routing
+- [ ] WebSocket — real-time ride status updates
+- [ ] OTP delivery via SMS (Twilio)
+- [ ] Push notifications (Firebase FCM)
+- [ ] User/customer dashboard
+- [ ] Ride fare estimation before booking
+- [ ] Docker + Docker Compose setup
+- [ ] CI/CD pipeline (GitHub Actions)
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+---
+
+<div align="center">
+
+Made with ❤️ using **ReactJs · Vite · Socket.io · Node**
+
+</div>
