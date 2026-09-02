@@ -4,12 +4,13 @@
 
 ### A production-grade Ride Hailing Web System built with ReactJS · Vite · Socket.io
 
-[![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
-[![Symfony](https://img.shields.io/badge/Symfony-8.4-black?style=for-the-badge&logo=symfony&logoColor=white)](https://symfony.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
-[![Symfony Mercure](https://img.shields.io/badge/Symfony%20Mercure-Realtime-black?style=for-the-badge&logo=symfony&logoColor=white)](https://symfony.com/doc/current/mercure.html)
-[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://swagger.io/)
+https://img.shields.io/badge/ReactJS-19-61DAFB?style=for-the-badge&logo=react&logoColor=black
+
+https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white
+
+https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger&logoColor=black
+
+https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
 
 </div>
 
