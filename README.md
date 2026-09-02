@@ -4,13 +4,13 @@
 
 ### A production-grade Ride Hailing Web System built with ReactJS · Vite · Socket.io
 
-https://img.shields.io/badge/ReactJS-19-61DAFB?style=for-the-badge&logo=react&logoColor=black
+![ReactJs](https://img.shields.io/badge/ReactJS-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
-https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger&logoColor=black
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 
-https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+![JavaScript](https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
 </div>
 
